@@ -44,10 +44,10 @@ namespace Api.Business
         {
             // new instance will be provided to every controller and every service            
             servicesContainer.AddTransient<IMovieService, MovieService>();
+            servicesContainer.AddTransient<IActorService, ActorService>();
+            servicesContainer.AddTransient<IMovieRatingService, MovieRatingService>();
 
             // objects are the same for every object and every request
-            //servicesContainer.AddSingleton<IProcessCache, ProcessCache>();
-
             return servicesContainer;
         }
 
@@ -61,6 +61,8 @@ namespace Api.Business
         {
             // new instance will be provided to every controller and every service
             servicesContainer.AddTransient<IMovieRepository, MovieRepository>();
+            servicesContainer.AddTransient<IActorRepository, ActorRepository>();
+            servicesContainer.AddTransient<IMovieRatingRepository, MovieRatingRepository>();
 
             servicesContainer.AddDbContext<DataContext>(options => options.UseSqlServer(settings.ConnectionStrings.DefaultConnection));
 
