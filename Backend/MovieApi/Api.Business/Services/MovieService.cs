@@ -2,11 +2,6 @@
 using Api.Business.Repository;
 using Api.Business.Repository.Data;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Api.Business.Services
 {
@@ -22,9 +17,9 @@ namespace Api.Business.Services
 
         public async Task<ApiResponse<MovieDto>> AddAsync(MovieDto movie)
         {
-            var newMovie = _mapper.Map<Movie>(movie);
-            var addedMovie = await _movieRepository.AddAsync(newMovie);
-            var dto = _mapper.Map<MovieDto>(addedMovie);
+            Movie newMovie = _mapper.Map<Movie>(movie);
+            Movie addedMovie = await _movieRepository.AddAsync(newMovie);
+            MovieDto dto = _mapper.Map<MovieDto>(addedMovie);
             return new ApiResponse<MovieDto>()
             {
                 Data = dto,

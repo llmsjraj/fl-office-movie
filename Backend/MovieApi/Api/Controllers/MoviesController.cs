@@ -23,7 +23,7 @@ namespace Api.Controllers
         {
             try
             {
-                var response = new ApiResponse<MovieDto>();
+                ApiResponse<MovieDto> response = new ApiResponse<MovieDto>();
 
                 // Handle model validation errors
                 ActionResult<ApiResponse<MovieDto>> validationErrorResult = HandleValidationErrors<MovieDto>();

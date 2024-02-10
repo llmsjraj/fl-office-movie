@@ -4,7 +4,7 @@ using System.Net;
 
 namespace Api.Controllers
 {
-    public class BaseHandlingController: ControllerBase
+    public class BaseHandlingController : ControllerBase
     {
         /// <summary>
         /// Gets result object by committed exception.
@@ -13,7 +13,7 @@ namespace Api.Controllers
         /// <returns>Return a result object including the status code.</returns>
         protected ObjectResult GetResultByException(Exception ex)
         {
-            var exType = ex.GetType();
+            Type exType = ex.GetType();
 
             int statusCode;
             if (typeof(UnauthorizedAccessException) == exType)
@@ -25,20 +25,21 @@ namespace Api.Controllers
                 statusCode = StatusCodes.Status400BadRequest;
             }
 
-            var response = new ApiResponse<object>();
-
-            response.StatusCode = statusCode;
-            response.ErrorMessage = ex.Message;
+            ApiResponse<object> response = new ApiResponse<object>
+            {
+                StatusCode = statusCode,
+                ErrorMessage = ex.Message
+            };
 
             return StatusCode(statusCode, response);
         }
 
         protected ActionResult<ApiResponse<T>> HandleValidationErrors<T>()
         {
-            var response = new ApiResponse<T>();
+            ApiResponse<T> response = new ApiResponse<T>();
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                List<string> errors = ModelState.Values.SelectMany(v => v.Errors)
                                                .Select(e => e.ErrorMessage)
                                                .ToList();
 
