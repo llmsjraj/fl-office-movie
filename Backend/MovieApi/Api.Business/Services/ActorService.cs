@@ -1,20 +1,21 @@
 ﻿using Api.Business.DTOs;
 using Api.Business.Repository;
+using Api.Business.Repository.Data;
 using AutoMapper;
 
 namespace Api.Business.Services
 {
     public class ActorService : IActorService
     {
-        private readonly IMovieRepository _movieRepository;
+        private readonly IActorRepository _actorRepository;
         private readonly IMapper _mapper;
-        public ActorService(IMovieRepository movieRepository, IMapper mapper)
+        public ActorService(IActorRepository actorRepository, IMapper mapper)
         {
-            _movieRepository = movieRepository;
+            _actorRepository = actorRepository;
             _mapper = mapper;
         }
 
-        public Task<ApiResponse<ActorDto>> AddAsync(ActorDto movie)
+        public Task<ApiResponse<Actor>> AddAsync(ActorDto movie)
         {
             throw new NotImplementedException();
         }
@@ -24,14 +25,21 @@ namespace Api.Business.Services
             throw new NotImplementedException();
         }
 
-        public Task<ApiResponse<ActorDto>> GetAllAsync()
+        public Task<ApiResponse<List<Actor>>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<ApiResponse<ActorDto>> GetByIdAsync(int id)
+        public async Task<ApiResponse<List<Actor>>> GetByIdsAsync(IEnumerable<int> ids)
         {
-            throw new NotImplementedException();
+            var data = await _actorRepository.GetByIdsAsync(ids);
+            bool exist = data.Any();
+            return new ApiResponse<List<Actor>>()
+            {
+                Data = data,
+                Success = exist,
+                StatusCode = exist ? 200 : 400
+            };
         }
 
         public Task UpdateAsync(ActorDto movie)

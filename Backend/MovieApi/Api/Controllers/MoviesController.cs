@@ -1,5 +1,6 @@
 ﻿using Api.Business.DTOs;
 using Api.Business.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -10,10 +11,12 @@ namespace Api.Controllers
     {
         private readonly IMovieService _movieService;
         private readonly ILogger<MoviesController> _logger;
+        private readonly IMapper _mapper;
 
-        public MoviesController(IMovieService movieService, ILogger<MoviesController> logger)
+        public MoviesController(IMovieService movieService, IMapper mapper, ILogger<MoviesController> logger)
         {
             _movieService = movieService;
+            _mapper = mapper;
             _logger = logger;
         }
 
@@ -32,7 +35,26 @@ namespace Api.Controllers
                     return validationErrorResult;
                 }
 
-                return await _movieService.AddAsync(movieDto);
+                var data = await _movieService.AddAsync(movieDto);
+                if (data.Success)
+                {
+                    MovieDto newMovie = _mapper.Map<MovieDto>(data.Data);
+                    newMovie.ActorIds = movieDto.ActorIds;
+                    return new ApiResponse<MovieDto>()
+                    {
+                        Data = newMovie,
+                        StatusCode = data.StatusCode,
+                        Success = true
+                    };
+                }
+
+                return new ApiResponse<MovieDto>()
+                {
+                    ErrorMessage = data.ErrorMessage,
+                    Success = false,
+                    StatusCode = data.StatusCode,
+                    Errors = data.Errors
+                };
             }
             catch (Exception ex)
             {

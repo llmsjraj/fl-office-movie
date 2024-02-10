@@ -1,4 +1,5 @@
 ﻿using Api.Business.Repository.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Business.Repository
 {
@@ -16,6 +17,16 @@ namespace Api.Business.Repository
             throw new NotImplementedException();
         }
 
+        public async Task<bool> AreActorIdsValid(IEnumerable<int> actorIds)
+        {
+            var existingActorIds = await _context.Actors
+            .Where(actor => actorIds.Contains(actor.Id))
+            .Select(actor => actor.Id)
+            .ToListAsync();
+
+            return existingActorIds.Count == actorIds.Count();
+        }
+
         public Task DeleteAsync(int id)
         {
             throw new NotImplementedException();
@@ -26,9 +37,11 @@ namespace Api.Business.Repository
             throw new NotImplementedException();
         }
 
-        public Task<Actor> GetByIdAsync(int id)
+        public async Task<List<Actor>> GetByIdsAsync(IEnumerable<int> ids)
         {
-            throw new NotImplementedException();
+            return await _context.Actors
+            .Where(actor => ids.Contains(actor.Id))
+            .ToListAsync();
         }
 
         public Task<Actor> UpdateAsync(Actor actor)

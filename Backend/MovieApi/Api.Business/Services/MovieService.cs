@@ -8,22 +8,44 @@ namespace Api.Business.Services
     public class MovieService : IMovieService
     {
         private readonly IMovieRepository _movieRepository;
+        private readonly IActorService _actorService;
         private readonly IMapper _mapper;
-        public MovieService(IMovieRepository movieRepository, IMapper mapper)
+        public MovieService(IMovieRepository movieRepository, IActorService actorService, IMapper mapper)
         {
             _movieRepository = movieRepository;
+            _actorService = actorService;
             _mapper = mapper;
         }
 
-        public async Task<ApiResponse<MovieDto>> AddAsync(MovieDto movie)
+        public async Task<ApiResponse<Movie>> AddAsync(MovieDto movie)
         {
             Movie newMovie = _mapper.Map<Movie>(movie);
-            Movie addedMovie = await _movieRepository.AddAsync(newMovie);
-            MovieDto dto = _mapper.Map<MovieDto>(addedMovie);
-            return new ApiResponse<MovieDto>()
+
+            // Validate actor IDs
+            if (movie.ActorIds != null && movie.ActorIds.Any())
             {
-                Data = dto,
+                var actors = await _actorService.GetByIdsAsync(movie.ActorIds);
+
+                if (actors.Data.Count != movie.ActorIds.Count)
+                {
+                    return new ApiResponse<Movie>()
+                    {
+                        ErrorMessage = $"No actors found with the provided IDs {movie.ActorIds}",
+                        Success = false,
+                        StatusCode = 400
+                    };
+                }
+                else
+                {
+                    newMovie.Actors = actors.Data;
+                }
+            }
+
+            var done = await _movieRepository.AddAsync(newMovie);
+            return new ApiResponse<Movie>()
+            {
                 Success = true,
+                Data = done,
                 StatusCode = 201
             };
         }
@@ -33,12 +55,12 @@ namespace Api.Business.Services
             throw new NotImplementedException();
         }
 
-        public Task<ApiResponse<MovieDto>> GetAllAsync()
+        public Task<ApiResponse<List<Movie>>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<ApiResponse<MovieDto>> GetByIdAsync(int id)
+        public Task<ApiResponse<Movie>> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
