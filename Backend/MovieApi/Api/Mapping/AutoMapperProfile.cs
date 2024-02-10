@@ -11,6 +11,7 @@ namespace Api.Mapping
             CreateMap<Actor, ActorDto>();
             CreateMap<Movie, MovieDto>();
             CreateMap<MovieRating, MovieRatingDto>();
+            CreateMap<MovieDto, Movie>();
         }
     }
 }

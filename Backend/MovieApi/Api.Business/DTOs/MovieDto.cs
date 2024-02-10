@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Api.Business.DTOs
+﻿namespace Api.Business.DTOs
 {
     public class MovieDto
     {
@@ -19,14 +17,6 @@ namespace Api.Business.DTOs
         /// </summary>
         public int Year { get; set; }
 
-        /// <summary>
-        /// Collection of actors associated with the movie.
-        /// </summary>
-        //public ICollection<ActorDto> Actors { get; set; }
-
-        /// <summary>
-        /// Collection of ratings given to the movie.
-        /// </summary>
-        //public ICollection<MovieRatingDto> Ratings { get; set; }
+        public List<int>? ActorIds { get; set; }
     }
 }

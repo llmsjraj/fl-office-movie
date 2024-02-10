@@ -6,8 +6,8 @@ namespace Api.Business.Repository
     {
         Task<Actor> GetByIdAsync(int id);
         Task<List<Actor>> GetAllAsync();
-        Task AddAsync(Actor actor);
-        Task UpdateAsync(Actor actor);
+        Task<Actor> AddAsync(Actor actor);
+        Task<Actor> UpdateAsync(Actor actor);
         Task DeleteAsync(int id);
     }
 }

@@ -6,8 +6,8 @@ namespace Api.Business.Repository
     {
         Task<Movie> GetByIdAsync(int id);
         Task<List<Movie>> GetAllAsync();
-        Task AddAsync(Movie movie);
-        Task UpdateAsync(Movie movie);
+        Task<Movie> AddAsync(Movie movie);
+        Task<Movie> UpdateAsync(Movie movie);
         Task DeleteAsync(int id);
     }
 }

@@ -11,7 +11,7 @@ namespace Api.Business.Repository
             _context = context;
         }
 
-        public Task AddAsync(Actor actor)
+        public Task<Actor> AddAsync(Actor actor)
         {
             throw new NotImplementedException();
         }
@@ -31,7 +31,7 @@ namespace Api.Business.Repository
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Actor actor)
+        public Task<Actor> UpdateAsync(Actor actor)
         {
             throw new NotImplementedException();
         }

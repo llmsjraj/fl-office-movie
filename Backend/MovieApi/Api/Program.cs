@@ -18,10 +18,9 @@ namespace Api
             dependencyInjection.Bootstrap(builder.Services, settingsProvider);
 
             builder.Services.AddAutoMapper(typeof(Program));
-            builder.Services.AddControllers();
-            builder.Services.AddControllers().AddNewtonsoftJson(options =>
-                                                                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                                                                );
+            builder.Services.AddControllers().ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true)
+                                                .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+            
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

@@ -1,22 +1,24 @@
 ﻿using Api.Business.Repository.Data;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Api.Business.Repository
 {
-    public class MovieRepository : IMovieRepository
+    public class MovieRatingRepository : IMovieRatingRepository
     {
         private readonly DataContext _context;
 
-        public MovieRepository(DataContext context)
+        public MovieRatingRepository(DataContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Movie> AddAsync(Movie movie)
+        public Task<MovieRating> AddAsync(MovieRating actor)
         {
-            var movieData = await _context.Movies.AddAsync(movie);
-            await _context.SaveChangesAsync();
-            return movieData.Entity;
+            throw new NotImplementedException();
         }
 
         public Task DeleteAsync(int id)
@@ -24,17 +26,17 @@ namespace Api.Business.Repository
             throw new NotImplementedException();
         }
 
-        public Task<List<Movie>> GetAllAsync()
+        public Task<List<MovieRating>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<Movie> GetByIdAsync(int id)
+        public Task<MovieRating> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Movie> UpdateAsync(Movie movie)
+        public Task<MovieRating> UpdateAsync(MovieRating actor)
         {
             throw new NotImplementedException();
         }
