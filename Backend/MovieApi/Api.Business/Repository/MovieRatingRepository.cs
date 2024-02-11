@@ -1,39 +1,89 @@
 ﻿using Api.Business.Repository.Data;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Api.Business.Repository
 {
+    /// <summary>
+    /// Repository for managing movie ratings.
+    /// </summary>
     public class MovieRatingRepository : IMovieRatingRepository
     {
         private readonly DataContext _context;
 
+        /// <summary>
+        /// Initializes a new instance of the MovieRatingRepository class.
+        /// </summary>
+        /// <param name="context">The data context.</param>
         public MovieRatingRepository(DataContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public Task<MovieRating> AddAsync(MovieRating actor)
+        /// <summary>
+        /// Adds a new movie rating to the repository.
+        /// </summary>
+        /// <param name="rating">The movie rating to add.</param>
+        /// <returns>The added movie rating.</returns>
+        public async Task<MovieRating> AddAsync(MovieRating rating)
         {
-            throw new NotImplementedException();
+            if (rating == null)
+                throw new ArgumentNullException(nameof(rating));
+
+            _context.MovieRatings.Add(rating);
+            await _context.SaveChangesAsync();
+            return rating;
         }
 
-        public Task DeleteAsync(int id)
+        /// <summary>
+        /// Deletes a movie rating from the repository.
+        /// </summary>
+        /// <param name="id">The ID of the movie rating to delete.</param>
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var rating = await GetByIdAsync(id);
+            if (rating != null)
+            {
+                _context.MovieRatings.Remove(rating);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        public Task<List<MovieRating>> GetAllAsync()
+        /// <summary>
+        /// Retrieves all movie ratings from the repository.
+        /// </summary>
+        /// <returns>A list of all movie ratings.</returns>
+        public async Task<List<MovieRating>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.MovieRatings.ToListAsync();
         }
 
-        public Task<MovieRating> GetByIdAsync(int id)
+        /// <summary>
+        /// Retrieves a movie rating by its ID from the repository.
+        /// </summary>
+        /// <param name="id">The ID of the movie rating to retrieve.</param>
+        /// <returns>The movie rating with the specified ID.</returns>
+        public async Task<MovieRating> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.MovieRatings.FindAsync(id);
         }
 
-        public Task<MovieRating> UpdateAsync(MovieRating actor)
+        /// <summary>
+        /// Updates an existing movie rating in the repository.
+        /// </summary>
+        /// <param name="rating">The movie rating to update.</param>
+        /// <returns>The updated movie rating.</returns>
+        public async Task<MovieRating> UpdateAsync(MovieRating rating)
         {
-            throw new NotImplementedException();
+            if (rating == null)
+                throw new ArgumentNullException(nameof(rating));
+
+            _context.Entry(rating).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return rating;
         }
     }
 }

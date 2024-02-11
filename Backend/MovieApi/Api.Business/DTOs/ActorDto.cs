@@ -1,19 +1,22 @@
 ﻿namespace Api.Business.DTOs
 {
+    /// <summary>
+    /// Data transfer object for representing an actor.
+    /// </summary>
     public class ActorDto
     {
         /// <summary>
-        /// Unique identifier for the actor.
+        /// Gets or sets the unique identifier for the actor.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// The name of the actor.
+        /// Gets or sets the name of the actor.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Collection of movies associated with the actor.
+        /// Gets or sets the collection of movies associated with the actor.
         /// </summary>
         public ICollection<MovieDto> Movies { get; set; }
     }
