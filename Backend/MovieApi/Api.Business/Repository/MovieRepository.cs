@@ -1,8 +1,4 @@
 ﻿using Api.Business.Repository.Data;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Api.Business.Repository
 {
@@ -30,9 +26,11 @@ namespace Api.Business.Repository
         public async Task<Movie> AddAsync(Movie movie)
         {
             if (movie == null)
+            {
                 throw new ArgumentNullException(nameof(movie));
+            }
 
-            var movieData = await _context.Movies.AddAsync(movie);
+            Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<Movie> movieData = await _context.Movies.AddAsync(movie);
             await _context.SaveChangesAsync();
             return movieData.Entity;
         }

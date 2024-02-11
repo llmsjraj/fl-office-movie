@@ -34,7 +34,7 @@ namespace Api.Business.Services
             // Validate actor IDs
             if (movie.ActorIds != null && movie.ActorIds.Any())
             {
-                var actor = await _actorService.GetByIdsAsync(movie.ActorIds);
+                ApiResponse<List<Actor>> actor = await _actorService.GetByIdsAsync(movie.ActorIds);
 
                 if (actor.Data.Count != movie.ActorIds.Count)
                 {
@@ -53,7 +53,7 @@ namespace Api.Business.Services
             }
 
             // Add the new movie to the repository
-            var addedMovie = await _movieRepository.AddAsync(newMovie);
+            Movie addedMovie = await _movieRepository.AddAsync(newMovie);
 
             // Map the added movie entity back to MovieDto
             MovieDto newMovieDto = _mapper.Map<MovieDto>(addedMovie);

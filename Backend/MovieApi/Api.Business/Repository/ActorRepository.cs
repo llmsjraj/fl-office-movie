@@ -1,9 +1,5 @@
 ﻿using Api.Business.Repository.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Api.Business.Repository
 {
@@ -41,7 +37,7 @@ namespace Api.Business.Repository
         public async Task<bool> AreActorIdsValid(IEnumerable<int> actorIds)
         {
             // Retrieve existing actor IDs from the database
-            var existingActorIds = await _context.Actors
+            List<int> existingActorIds = await _context.Actors
                 .Where(actor => actorIds.Contains(actor.Id))
                 .Select(actor => actor.Id)
                 .ToListAsync();

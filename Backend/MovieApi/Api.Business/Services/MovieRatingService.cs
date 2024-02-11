@@ -1,8 +1,6 @@
 ﻿using Api.Business.DTOs;
 using Api.Business.Repository;
 using AutoMapper;
-using System;
-using System.Threading.Tasks;
 
 namespace Api.Business.Services
 {

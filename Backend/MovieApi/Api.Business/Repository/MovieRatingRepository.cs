@@ -1,9 +1,5 @@
 ﻿using Api.Business.Repository.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Api.Business.Repository
 {
@@ -31,7 +27,9 @@ namespace Api.Business.Repository
         public async Task<MovieRating> AddAsync(MovieRating rating)
         {
             if (rating == null)
+            {
                 throw new ArgumentNullException(nameof(rating));
+            }
 
             _context.MovieRatings.Add(rating);
             await _context.SaveChangesAsync();
@@ -44,7 +42,7 @@ namespace Api.Business.Repository
         /// <param name="id">The ID of the movie rating to delete.</param>
         public async Task DeleteAsync(int id)
         {
-            var rating = await GetByIdAsync(id);
+            MovieRating rating = await GetByIdAsync(id);
             if (rating != null)
             {
                 _context.MovieRatings.Remove(rating);
@@ -79,7 +77,9 @@ namespace Api.Business.Repository
         public async Task<MovieRating> UpdateAsync(MovieRating rating)
         {
             if (rating == null)
+            {
                 throw new ArgumentNullException(nameof(rating));
+            }
 
             _context.Entry(rating).State = EntityState.Modified;
             await _context.SaveChangesAsync();

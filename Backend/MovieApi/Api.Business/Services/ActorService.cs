@@ -2,10 +2,6 @@
 using Api.Business.Repository;
 using Api.Business.Repository.Data;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Api.Business.Services
 {
@@ -63,7 +59,7 @@ namespace Api.Business.Services
         /// <returns>An API response containing a list of actors with the specified IDs.</returns>
         public async Task<ApiResponse<List<Actor>>> GetByIdsAsync(IEnumerable<int> ids)
         {
-            var data = await _actorRepository.GetByIdsAsync(ids);
+            List<Actor> data = await _actorRepository.GetByIdsAsync(ids);
             bool exist = data.Any();
             return new ApiResponse<List<Actor>>()
             {

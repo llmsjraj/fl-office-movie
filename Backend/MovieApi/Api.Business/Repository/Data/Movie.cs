@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Api.Business.Repository.Data
+﻿namespace Api.Business.Repository.Data
 {
     /// <summary>
     /// Represents a movie entity.

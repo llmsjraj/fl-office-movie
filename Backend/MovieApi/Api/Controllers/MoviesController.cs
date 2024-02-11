@@ -50,7 +50,7 @@ namespace Api.Controllers
                 }
 
                 // Add the movie using the movie service
-                var data = await _movieService.AddAsync(movieDto);
+                ApiResponse<MovieDto> data = await _movieService.AddAsync(movieDto);
 
                 // Check if the operation was successful
                 if (data.Success)

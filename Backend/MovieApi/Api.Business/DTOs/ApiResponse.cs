@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Api.Business.DTOs
+﻿namespace Api.Business.DTOs
 {
     /// <summary>
     /// Represents the response returned from API operations.
