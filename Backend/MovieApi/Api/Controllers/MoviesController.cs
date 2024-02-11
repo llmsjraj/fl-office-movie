@@ -21,12 +21,15 @@ namespace Api.Controllers
         }
 
 
+        [ProducesResponseType(typeof(ApiResponse<MovieDto>), 201)]
+        [ProducesResponseType(typeof(ApiResponse<MovieDto>), 400)]
+        [ProducesResponseType(typeof(string), 401)]
         [HttpPost]
-        public async Task<ActionResult<ApiResponse<MovieDto>>> AddMovie([FromBody] MovieDto movieDto)
+        public async Task<ActionResult<ApiResponse<MovieDto>>> AddMovie([FromBody] CreateMovieDto movieDto)
         {
             try
             {
-                ApiResponse<MovieDto> response = new ApiResponse<MovieDto>();
+                ApiResponse<CreateMovieDto> response = new ApiResponse<CreateMovieDto>();
 
                 // Handle model validation errors
                 ActionResult<ApiResponse<MovieDto>> validationErrorResult = HandleValidationErrors<MovieDto>();
@@ -38,23 +41,12 @@ namespace Api.Controllers
                 var data = await _movieService.AddAsync(movieDto);
                 if (data.Success)
                 {
-                    MovieDto newMovie = _mapper.Map<MovieDto>(data.Data);
-                    newMovie.ActorIds = movieDto.ActorIds;
-                    return new ApiResponse<MovieDto>()
-                    {
-                        Data = newMovie,
-                        StatusCode = data.StatusCode,
-                        Success = true
-                    };
+                    return CreatedAtAction(nameof(AddMovie), new { id = data.Data.Id }, data);
                 }
-
-                return new ApiResponse<MovieDto>()
+                else
                 {
-                    ErrorMessage = data.ErrorMessage,
-                    Success = false,
-                    StatusCode = data.StatusCode,
-                    Errors = data.Errors
-                };
+                    return BadRequest(data);
+                }
             }
             catch (Exception ex)
             {

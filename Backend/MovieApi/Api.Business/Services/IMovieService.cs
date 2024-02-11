@@ -5,10 +5,10 @@ namespace Api.Business.Services
 {
     public interface IMovieService
     {
-        Task<ApiResponse<Movie>> GetByIdAsync(int id);
-        Task<ApiResponse<List<Movie>>> GetAllAsync();
-        Task<ApiResponse<Movie>> AddAsync(MovieDto movie);
-        Task UpdateAsync(MovieDto movie);
+        Task<ApiResponse<MovieDto>> GetByIdAsync(int id);
+        Task<ApiResponse<List<MovieDto>>> GetAllAsync();
+        Task<ApiResponse<MovieDto>> AddAsync(CreateMovieDto movie);
+        Task UpdateAsync(CreateMovieDto movie);
         Task DeleteAsync(int id);
     }
 }

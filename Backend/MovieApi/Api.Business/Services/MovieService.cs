@@ -17,7 +17,7 @@ namespace Api.Business.Services
             _mapper = mapper;
         }
 
-        public async Task<ApiResponse<Movie>> AddAsync(MovieDto movie)
+        public async Task<ApiResponse<MovieDto>> AddAsync(CreateMovieDto movie)
         {
             Movie newMovie = _mapper.Map<Movie>(movie);
 
@@ -28,9 +28,9 @@ namespace Api.Business.Services
 
                 if (actors.Data.Count != movie.ActorIds.Count)
                 {
-                    return new ApiResponse<Movie>()
+                    return new ApiResponse<MovieDto>()
                     {
-                        ErrorMessage = $"No actors found with the provided IDs {movie.ActorIds}",
+                        ErrorMessage = $"No actors found with the provided IDs {string.Join(", ", movie.ActorIds)}",
                         Success = false,
                         StatusCode = 400
                     };
@@ -42,10 +42,11 @@ namespace Api.Business.Services
             }
 
             var done = await _movieRepository.AddAsync(newMovie);
-            return new ApiResponse<Movie>()
+            MovieDto newMovieDto = _mapper.Map<MovieDto>(done);
+            return new ApiResponse<MovieDto>()
             {
                 Success = true,
-                Data = done,
+                Data = newMovieDto,
                 StatusCode = 201
             };
         }
@@ -55,17 +56,17 @@ namespace Api.Business.Services
             throw new NotImplementedException();
         }
 
-        public Task<ApiResponse<List<Movie>>> GetAllAsync()
+        public Task<ApiResponse<List<MovieDto>>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<ApiResponse<Movie>> GetByIdAsync(int id)
+        public Task<ApiResponse<MovieDto>> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(MovieDto movie)
+        public Task UpdateAsync(CreateMovieDto movie)
         {
             throw new NotImplementedException();
         }
